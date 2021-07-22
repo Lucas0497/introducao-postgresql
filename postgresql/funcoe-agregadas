@@ -1,0 +1,60 @@
+SELECT nome, numero FROM banco;
+SELECT banco_numero, numero, nome FROM agencia;
+SELECT numero, nome, email FROM cliente;
+SELECT banco_numero, agencia_numero, cliente_numero FROM cliente_transacoes;
+SELECT * FROM conta_corrente;
+
+-- Feature para monstrar todas as informações de uma determinada tabela 
+SELECT * FROM information_schema.columns WHERE table_name = 'banco';
+
+-- Feature para monstrar as informações passadas como parametro de uma determinada tabela 
+SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'banco';
+
+-- Funções Agregadas 
+-- AVG
+-- COUNT (having)
+-- MAX
+-- MIN
+-- SUM 
+
+-- Calcula a média dos valores contidos em uma determinada coluna de uma determinada tabela 
+SELECT AVG (valor) FROM cliente_transacoes;
+
+-- Função para contagem de dados. Nesse exemplo irá retornar a quantidade de email do gmail 
+-- contidos na coluna email, na tabela cliente. NECESSÁRIO agrupar a coluna email. 
+SELECT COUNT(numero), email FROM cliente WHERE email ILIKE '%gmail.com'
+GROUP BY email;
+
+-- Função que retorna o valor maximo contido na coluna.
+SELECT MAX (valor), tipo_transacao_id
+FROM cliente_transacoes
+GROUP BY tipo_transacao_id;
+
+-- Função que retorna o valor minimo contido na coluna.
+SELECT MIN (valor), tipo_transacao_id
+FROM cliente_transacoes
+GROUP BY tipo_transacao_id;
+
+-- HAVING -> Define uma "parametro" para os dados que serão retornados.
+-- Nesse exemplo a quantidade de transações realizadas em cada tipo de transação.
+-- Utilizando o having iremos informar que só queremos visualizar os tipos de transação que tiveram 
+-- mais de 150 transações realizadas.
+SELECT COUNT (id), tipo_transacao_id
+FROM cliente_transacoes
+GROUP BY tipo_transacao_id
+HAVING COUNT(id) > 150;
+
+-- SUM retorna a soma de todos os registros 
+SELECT SUM(valor)
+FROM cliente_transacoes;
+
+SELECT SUM (valor), tipo_transacao_id
+FROM cliente_transacoes
+GROUP BY tipo_transacao_id
+-- Comando para ordenar os valores. ASC por default. 
+ORDER BY tipo_transacao_id;
+
+SELECT SUM (valor), tipo_transacao_id
+FROM cliente_transacoes
+GROUP BY tipo_transacao_id
+ORDER BY tipo_transacao_id DESC;
